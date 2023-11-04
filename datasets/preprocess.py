@@ -1,16 +1,9 @@
-#!/usr/bin/env python37
+#!/usr/bin/env python36
 # -*- coding: utf-8 -*-
 """
-Created on 17 Sep, 2019
+Created on July, 2018
 
-Reference: https://github.com/CRIPAC-DIG/SR-GNN/blob/master/datasets/preprocess.py
-
-预处理基本流程：
-1. 创建两个字典sess_clicks和sess_date来分别保存session的相关信息。两个字典都以sessionId为键，其中session_click以一个Session中用户先后点击的物品id
-构成的List为值；session_date以一个Session中最后一次点击的时间作为值，后续用于训练集和测试集的划分；
-2. 过滤长度为1的Session和出现次数小于5次的物品；
-3. 依据日期划分训练集和测试集。其中Yoochoose数据集以最后一天时长内的Session作为测试集，Diginetica数据集以最后一周时长内的Session作为测试集；
-4. 分解每个Session生成最终的数据格式。每个Session中以不包括最后一个物品的其他物品作为特征，以最后一个物品作为标签。同时把物品的id重新编码成从1开始递增的自然数序列
+@author: Tangrizzly
 """
 
 import argparse
@@ -20,29 +13,21 @@ import pickle
 import operator
 import datetime
 import os
-from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--dataset', default='yoochoose', help='dataset name')
-parser.add_argument('--raw_path', default='raw_data/', help='raw dataset path')
-parser.add_argument('--data_path', default='datasets/', help='dataset path')
-args = parser.parse_args()
+parser.add_argument('--dataset', default='yoochoose', help='dataset name: diginetica/yoochoose/sample')
+opt = parser.parse_args()
+print(opt)
 
-# add a header for yoochoose dataset
-with open(args.raw_path, 'r') as f, open(args.data_path, 'w') as fn:
-    fn.write('sessionId,timestamp,itemId,category'+'\n')
-    for line in f:
-        fn.write(line)
-
-if args.dataset == 'diginetica':
+dataset = 'sample_train-item-views.csv'
+if opt.dataset == 'diginetica':
     dataset = 'train-item-views.csv'
-elif args.dataset =='yoochoose':
-    dataset = 'yoochoose-clicks-headers.dat'
-
+elif opt.dataset =='yoochoose':
+    dataset = 'datasets/raw/yoochoose-clicks.dat'
 
 print("-- Starting @ %ss" % datetime.datetime.now())
 with open(dataset, "r") as f:
-    if args.dataset == 'yoochoose':
+    if opt.dataset == 'yoochoose':
         reader = csv.DictReader(f, delimiter=',')
     else:
         reader = csv.DictReader(f, delimiter=';')
@@ -51,23 +36,25 @@ with open(dataset, "r") as f:
     ctr = 0
     curid = -1
     curdate = None
-    for data in tqdm(reader):
-        sessid = data['sessionId']
+    for data in reader:
+        sessid = data['session_id']
         if curdate and not curid == sessid:
             date = ''
-            if args.dataset == 'yoochoose':
+            if opt.dataset == 'yoochoose':
                 date = time.mktime(time.strptime(curdate[:19], '%Y-%m-%dT%H:%M:%S'))
             else:
                 date = time.mktime(time.strptime(curdate, '%Y-%m-%d'))
             sess_date[curid] = date
         curid = sessid
-        if args.dataset == 'yoochoose':
-            item = data['itemId']
+        if opt.dataset == 'yoochoose':
+            item = data['item_id']
+            # item = data['ItemId']
         else:
-            item = data['itemId'], int(data['timeframe'])
+            item = data['item_id'], int(data['timeframe'])
         curdate = ''
-        if args.dataset == 'yoochoose':
+        if opt.dataset == 'yoochoose':
             curdate = data['timestamp']
+            # curdate = data['time']
         else:
             curdate = data['eventdate']
 
@@ -77,7 +64,7 @@ with open(dataset, "r") as f:
             sess_clicks[sessid] = [item]
         ctr += 1
     date = ''
-    if args.dataset == 'yoochoose':
+    if opt.dataset == 'yoochoose':
         date = time.mktime(time.strptime(curdate[:19], '%Y-%m-%dT%H:%M:%S'))
     else:
         date = time.mktime(time.strptime(curdate, '%Y-%m-%d'))
@@ -125,7 +112,7 @@ for _, date in dates:
 
 # 7 days for test
 splitdate = 0
-if args.dataset == 'yoochoose':
+if opt.dataset == 'yoochoose':
     splitdate = maxdate - 86400 * 1  # the number of seconds for a day：86400
 else:
     splitdate = maxdate - 86400 * 7
@@ -135,8 +122,8 @@ tra_sess = filter(lambda x: x[1] < splitdate, dates)
 tes_sess = filter(lambda x: x[1] > splitdate, dates)
 
 # Sort sessions by date
-tra_sess = sorted(tra_sess, key=operator.itemgetter(1))     # [(sessionId, timestamp), (), ]
-tes_sess = sorted(tes_sess, key=operator.itemgetter(1))     # [(sessionId, timestamp), (), ]
+tra_sess = sorted(tra_sess, key=operator.itemgetter(1))     # [(session_id, timestamp), (), ]
+tes_sess = sorted(tes_sess, key=operator.itemgetter(1))     # [(session_id, timestamp), (), ]
 print(len(tra_sess))    # 186670    # 7966257
 print(len(tes_sess))    # 15979     # 15324
 print(tra_sess[:3])
@@ -223,19 +210,19 @@ for seq in tra_seqs:
 for seq in tes_seqs:
     all += len(seq)
 print('avg length: ', all/(len(tra_seqs) + len(tes_seqs) * 1.0))
-if args.dataset == 'diginetica':
+if opt.dataset == 'diginetica':
     if not os.path.exists('diginetica'):
         os.makedirs('diginetica')
-    pickle.dump(tra, open('diginetica/train.txt', 'wb'))
-    pickle.dump(tes, open('diginetica/test.txt', 'wb'))
-    pickle.dump(tra_seqs, open('diginetica/all_train_seq.txt', 'wb'))
-elif args.dataset == 'yoochoose':
-    if not os.path.exists('yoochoose1_4'):
-        os.makedirs('yoochoose1_4')
-    if not os.path.exists('yoochoose1_64'):
-        os.makedirs('yoochoose1_64')
-    pickle.dump(tes, open('yoochoose1_4/test.txt', 'wb'))
-    pickle.dump(tes, open('yoochoose1_64/test.txt', 'wb'))
+    pickle.dump(tra, open('/datasets/diginetica/train.txt', 'wb'))
+    pickle.dump(tes, open('/datasets/diginetica/test.txt', 'wb'))
+    pickle.dump(tra_seqs, open('datasets/diginetica/all_train_seq.txt', 'wb'))
+elif opt.dataset == 'yoochoose':
+    if not os.path.exists('datasets/yoochoose1_4'):
+        os.makedirs('datasets/yoochoose1_4')
+    if not os.path.exists('datasets/yoochoose1_64'):
+        os.makedirs('datasets/yoochoose1_64')
+    pickle.dump(tes, open('datasets/yoochoose1_4/test.txt', 'wb'))
+    pickle.dump(tes, open('datasets/yoochoose1_64/test.txt', 'wb'))
 
     split4, split64 = int(len(tr_seqs) / 4), int(len(tr_seqs) / 64)
     print(len(tr_seqs[-split4:]))
@@ -249,7 +236,12 @@ elif args.dataset == 'yoochoose':
 
     pickle.dump(tra64, open('yoochoose1_64/train.txt', 'wb'))
     pickle.dump(seq64, open('yoochoose1_64/all_train_seq.txt', 'wb'))
+
 else:
-    pass
+    if not os.path.exists('sample'):
+        os.makedirs('sample')
+    pickle.dump(tra, open('sample/train.txt', 'wb'))
+    pickle.dump(tes, open('sample/test.txt', 'wb'))
+    pickle.dump(tra_seqs, open('sample/all_train_seq.txt', 'wb'))
 
 print('Done.')
