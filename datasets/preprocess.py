@@ -16,14 +16,17 @@ import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', default='yoochoose', help='dataset name: diginetica/yoochoose/sample')
+parser.add_argument('--raw_data', default='datasets/raw/yoochoose-clicks.dat', help='raw data file')
 opt = parser.parse_args()
 print(opt)
 
-dataset = 'sample_train-item-views.csv'
-if opt.dataset == 'diginetica':
-    dataset = 'train-item-views.csv'
-elif opt.dataset =='yoochoose':
-    dataset = 'datasets/raw/yoochoose-clicks.dat'
+# dataset = 'sample_train-item-views.csv'
+# if opt.dataset == 'diginetica':
+#     dataset = 'train-item-views.csv'
+# elif opt.dataset =='yoochoose':
+#     dataset = 'datasets/raw/yoochoose-clicks.dat'
+dataset = opt.raw_data
+
 
 print("-- Starting @ %ss" % datetime.datetime.now())
 with open(dataset, "r") as f:
