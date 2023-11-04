@@ -24,12 +24,12 @@ from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', default='yoochoose', help='dataset name')
-parser.add_argument('--raw_path', default='raw_data/', help='raw dataset path')
+parser.add_argument('--raw_data', default='raw_data/', help='raw dataset path')
 parser.add_argument('--data_path', default='datasets/', help='dataset path')
 args = parser.parse_args()
 
 # add a header for yoochoose dataset
-with open(args.raw_path, 'r') as f, open(args.data_path, 'w') as fn:
+with open(args.raw_data, 'r') as f, open(args.data_path, 'w') as fn:
     fn.write('sessionId,timestamp,itemId,category'+'\n')
     for line in f:
         fn.write(line)
