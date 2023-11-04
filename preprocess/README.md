@@ -4,3 +4,5 @@
 ### Tập Diginetica
 + Train: toàn bộ các Session trước tuần mà Session cuối cùng được ghi nhận.
 + Test: toàn bộ các Session cùng tuần mà Session cuối cùng được ghi nhận.
+### Metrics:
++ Recall, MRR Top k = 20
