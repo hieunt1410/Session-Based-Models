@@ -1,6 +1,6 @@
 import preprocess_rsc15 as pp
 import time
-
+import argparse
 '''
 preprocessing method ["info","org","days_test","slice"]
     info: just load and show info
@@ -10,14 +10,22 @@ preprocessing method ["info","org","days_test","slice"]
     slice: new (create multiple train-test-combinations with a window approach  
     buys: load buys and safe file to prepared
 '''
-METHOD = "day_test"
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-m', '--method', metavar='M', type=str, default='org_min_date', help='Preprocessing method')
+parser.add_argument('-p', '--path', metavar='P', type=str, default='data/rsc15/raw/', help='Path to the data file')
+parser.add_argument('-f', '--file', metavar='F', type=str, default='rsc15-clicks', help='File name')
+parser.add_argument('-ps', '--path_processed', metavar='PS', type=str, default='data/rsc15/prepared/', help='Path to save the prepared data file')
+args = parser.parse_args()
+
+METHOD = args.method
 
 '''
 data config (all methods)
 '''
-PATH = 'data/rsc15/raw/'
-PATH_PROCESSED = 'data/rsc15/prepared/'
-FILE = 'rsc15-clicks'
+PATH = args.path
+PATH_PROCESSED = args.path_processed
+FILE = args.file
 
 '''
 org_min_date config
