@@ -1,7 +1,6 @@
 ## Data raw là 1 file csv với header lần lượt là ‘sessionId’, ‘timestamp’, ‘itemId’, ‘category’.
 + ‘sessionId’, ‘itemId’, ‘category’: 'int'
 + ‘Timestamp’: %Y-%m-%dT%H:%M:%SZ. Ví dụ: 2023-11-14T10:20:00Z
-Default Config
 
 ## Cách xử lý data TRON:
 1. Lọc hết các session mà có tương tác với item < 2
