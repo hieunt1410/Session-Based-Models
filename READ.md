@@ -14,7 +14,7 @@
    ```
 2. Cài đặt requirements.
    ```bash
-   %cd Session-Based-Models/
+   cd Session-Based-Models/
   !pip install -r requirements.txt
   ```
 3. Chuyển data vào project
