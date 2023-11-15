@@ -1,0 +1,13 @@
+python==3.10
+torch==1.13.1
+pytorch-lightning
+tensorboardx
+onnx
+pandas
+gdown
+mlflow
+tqdm
+pytest
+ipykernel
+autoep8
+yapf
