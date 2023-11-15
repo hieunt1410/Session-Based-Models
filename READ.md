@@ -9,25 +9,25 @@
 
 ## Cách chạy model
 1. Clone repo
-   ```bash
-   !git clone -b trans4rec https://github.com/UwU-tao/Session-Based-Models.git
-   ```
+```bash
+!git clone -b trans4rec https://github.com/UwU-tao/Session-Based-Models.git
+```
 2. Cài đặt requirements.
-   ```bash
-   %cd Session-Based-Models
-  !pip install -r requirements.txt
-  ```
+```bash
+cd Session-Based-Models
+!pip install -r requirements.txt
+```
 3. Chuyển data vào project
-  ```bash
-  !mkdir datasets
-  !mkdir datasets/yoochoose
-  ```
-Sau đó, ta sẽ chuyển file data dạng .csv hoặc .dat vào folder yoochoose, lưu ý rename file data thành yoochoose.csv hoặc yoochoose.dat
+```bash
+!mkdir datasets
+!mkdir datasets/yoochoose
+```
+Sau đó, ta sẽ chuyển file data dạng .csv hoặc .dat vào folder yoochoose, lưu ý rename file data thành yoochoose.csv hoặc yoochoose.dat\n
 4. Tiền xử lý dữ liệu
-  ```bash
-  !python src/preprocessing.py --dataset 'yoochoose'
-  ```
+```bash
+!python src/preprocessing.py --dataset 'yoochoose'
+```
 5. Chạy mô hình
-   ```bash
-   !python -m src --config-filename tron/yoochoose
-   ```
+```bash
+!python -m src --config-filename tron/yoochoose
+```
