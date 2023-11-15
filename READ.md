@@ -22,7 +22,7 @@ cd Session-Based-Models
 !mkdir datasets
 !mkdir datasets/yoochoose
 ```
-Sau đó, ta sẽ chuyển file data dạng .csv hoặc .dat vào folder yoochoose, lưu ý rename file data thành yoochoose.csv hoặc yoochoose.dat\n
+Sau đó, ta sẽ chuyển file data dạng .csv hoặc .dat vào folder yoochoose, lưu ý rename file data thành yoochoose.csv hoặc yoochoose.dat '\n'
 4. Tiền xử lý dữ liệu
 ```bash
 !python src/preprocessing.py --dataset 'yoochoose'
