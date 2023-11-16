@@ -8,5 +8,5 @@ mlflow
 tqdm
 pytest
 ipykernel
-autoep8
+autopep8
 yapf
