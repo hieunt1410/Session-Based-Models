@@ -17,9 +17,9 @@ def read_stats(data_dir, dataset):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--config-filename", type=str)
-    parser.add_argument("--config-dir", type=str, default="configs")
-    parser.add_argument("--data-dir", type=str, default="datasets")
+    parser.add_argument("--config_filename", type=str)
+    parser.add_argument("--config_dir", type=str, default="configs")
+    parser.add_argument("--data_dir", type=str, default="datasets")
     args = parser.parse_args()
 
     with open(f"{args.config_dir}/{args.config_filename}.json", "r") as f:
