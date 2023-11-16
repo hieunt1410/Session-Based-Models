@@ -1,5 +1,8 @@
 torch==1.13.1
-pytorch-lightning
+torchaudio==0.13.1
+torchdata==0.5.1
+torchvision==0.14.1
+pytorch-lightning==2.1.0
 tensorboardx
 onnx
 pandas
