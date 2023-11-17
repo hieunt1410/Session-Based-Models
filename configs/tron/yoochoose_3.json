@@ -3,7 +3,7 @@
     "dataset": "yoochoose",
     "hidden_size": 200,
     "num_layers": 2,
-    "dropout": 0.05,
+    "dropout": 0.1,
     "num_batch_negatives": 127,
     "num_uniform_negatives": 16384,
     "reject_uniform_session_items": false,
