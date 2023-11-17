@@ -34,17 +34,17 @@ Sau đó, ta sẽ chuyển file data dạng .csv hoặc .dat vào folder yoochoo
 !python src/preprocessing.py --dataset 'yoochoose'
 ```
 5. Chạy mô hình\
-Mô hình TRON
++ Mô hình TRON
 ```bash
 !python -m src --config-filename tron/yoochoose_x
 ```
 Thay x từ 1 đến 5 để đi qua 5 configs khác nhau.\
-Mô hình SASREC
++ Mô hình SASREC
 ```bash
 !python -m src --config-filename sasrec/sasrec_yoochoose_x
 ```
 Thay x từ 1 đến 5 để đi qua 5 configs khác nhau.\
-Mô hình GRU4REC
++ Mô hình GRU4REC
 ```bash
 !python -m src --config-filename gru4rec/gru4rec_yoochoose_x
 ```
