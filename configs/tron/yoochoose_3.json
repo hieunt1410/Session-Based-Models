@@ -9,6 +9,8 @@
     "reject_uniform_session_items": false,
     "reject_in_batch_items": true,
     "sampling_style": "sessionwise",
+    "topk_sampling": true,
+    "topk_sampling_k": 100,
     "loss": "bce",
     "max_epochs": 10,
     "batch_size": 128,
