@@ -9,9 +9,9 @@ from src.sasrec.dataset import SasRecDataset
 
 def train_sasrec(config, data_dir, train_stats, test_stats, num_items):
     checkpoint_callback = ModelCheckpoint(save_top_k=1,
-                                          monitor='recall_cutoff_20',
+                                          monitor='recall_cutoff_30',
                                           mode='max',
-                                          filename=f'sasrec-{config["dataset"]}-' + '{epoch}-{recall_cutoff_20:.3f}')
+                                          filename=f'sasrec-{config["dataset"]}-' + '{epoch}-{recall_cutoff_30:.3f}')
 
     trainer = Trainer(max_epochs=config["max_epochs"],
                       precision=16,
