@@ -20,7 +20,7 @@
     "overfit_batches": 0,
     "output_bias": true,
     "share_embeddings": true,
-    "original_gru": false,
+    "original_gru": true,
     "shuffling_style": "no_shuffling",
     "final_activation": true,
     "optimizer": "adagrad"
