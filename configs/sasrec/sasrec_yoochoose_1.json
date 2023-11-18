@@ -10,7 +10,7 @@
     "reject_in_batch_items": true,
     "sampling_style": "eventwise",
     "loss": "bce",
-    "max_epochs": 10,
+    "max_epochs": 1,
     "batch_size": 128,
     "max_session_length": 50,
     "lr": 0.001,
