@@ -253,7 +253,7 @@ def main():
     yoochoose_conf = {
         "dataset_name": "yoochoose",
         "data_file": data_dir / "yoochoose" / "yoochoose-clicks.dat",
-        "header": False,
+        "header": True,
         "split_seconds": 86400 * 1,  # 1 day (for testing)
         "split_idx": -1  # use last session timestamp for split
     }
