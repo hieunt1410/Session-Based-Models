@@ -8,7 +8,7 @@
     "num_uniform_negatives": 2048,
     "reject_uniform_session_items": false,
     "reject_in_batch_items": true,
-    "sampling_style": "eventwise",
+    "sampling_style": "batchwise",
     "loss": "bpr-max",
     "bpr_penalty": 0.5,
     "max_epochs": 1,
